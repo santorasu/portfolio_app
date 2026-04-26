@@ -54,12 +54,8 @@ class PortfolioShellScreen extends ConsumerWidget {
           appBar: isWeb
               ? _buildWebAppBar(context, ref, currentIndex, locale)
               : _buildMobileAppBar(ref, locale),
-          drawer:
-              isWeb ? null : _buildMobileDrawer(context, ref, currentIndex),
-          body: IndexedStack(
-            index: currentIndex,
-            children: _sections,
-          ),
+          drawer: isWeb ? null : _buildMobileDrawer(context, ref, currentIndex),
+          body: IndexedStack(index: currentIndex, children: _sections),
           bottomNavigationBar: isWeb
               ? null
               : _buildBottomNavigationBar(context, ref, currentIndex),
@@ -69,28 +65,44 @@ class PortfolioShellScreen extends ConsumerWidget {
   }
 
   // ─── Language toggle button ─────────────────────────────
-  Widget _buildLanguageToggle(WidgetRef ref, Locale locale) {
+  Widget _buildLanguageToggle(
+    WidgetRef ref,
+    Locale locale, {
+    bool isMobile = false,
+  }) {
     return Tooltip(
-      message: locale.languageCode == 'en' ? 'Switch to বাংলা' : 'Switch to English',
-      child: InkWell(
+      message: locale.languageCode == 'en'
+          ? 'Switch to বাংলা'
+          : 'Switch to English',
+      child: GestureDetector(
         onTap: () => ref.read(localeProvider.notifier).toggleLocale(),
-        borderRadius: BorderRadius.circular(20),
+
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: EdgeInsets.symmetric(
+            horizontal: isMobile ? 6 : 12,
+            vertical: isMobile ? 2 : 6,
+          ),
           decoration: BoxDecoration(
-            border: Border.all(color: ColorManager.primary, width: 1.5),
-            borderRadius: BorderRadius.circular(20),
+            border: Border.all(
+              color: ColorManager.primary,
+              width: isMobile ? 1.0 : 1.5,
+            ),
+            borderRadius: BorderRadius.circular(isMobile ? 14 : 20),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.language, color: ColorManager.primary, size: 18),
-              const SizedBox(width: 6),
+              Icon(
+                Icons.language,
+                color: ColorManager.primary,
+                size: isMobile ? 14 : 18,
+              ),
+              SizedBox(width: isMobile ? 4 : 6),
               Text(
                 locale.languageCode == 'en' ? 'BN' : 'EN',
-                style: const TextStyle(
+                style: TextStyle(
                   color: ColorManager.primary,
-                  fontSize: 13,
+                  fontSize: isMobile ? 11 : 13,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -103,7 +115,11 @@ class PortfolioShellScreen extends ConsumerWidget {
 
   // ─── Web AppBar ─────────────────────────────────────────
   PreferredSizeWidget _buildWebAppBar(
-      BuildContext context, WidgetRef ref, int currentIndex, Locale locale) {
+    BuildContext context,
+    WidgetRef ref,
+    int currentIndex,
+    Locale locale,
+  ) {
     return AppBar(
       backgroundColor: ColorManager.background,
       elevation: 0,
@@ -128,19 +144,19 @@ class PortfolioShellScreen extends ConsumerWidget {
             bool isActive = currentIndex == index;
             final sectionNames = _getSectionNames(context);
             return InkWell(
-              onTap: () => ref
-                  .read(portfolioNavIndexProvider.notifier)
-                  .setIndex(index),
+              onTap: () =>
+                  ref.read(portfolioNavIndexProvider.notifier).setIndex(index),
               borderRadius: BorderRadius.circular(8),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 8,
+                ),
                 child: Text(
                   sectionNames[index],
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight:
-                        isActive ? FontWeight.w600 : FontWeight.w400,
+                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                     color: isActive
                         ? ColorManager.primary
                         : ColorManager.whiteColor,
@@ -150,7 +166,7 @@ class PortfolioShellScreen extends ConsumerWidget {
             );
           }),
           const SizedBox(width: 16),
-          _buildLanguageToggle(ref, locale),
+          _buildLanguageToggle(ref, locale, isMobile: false),
           const SizedBox(width: 20),
         ],
       ),
@@ -172,9 +188,11 @@ class PortfolioShellScreen extends ConsumerWidget {
       ),
       iconTheme: const IconThemeData(color: ColorManager.whiteColor),
       actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 12.0),
-          child: _buildLanguageToggle(ref, locale),
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: _buildLanguageToggle(ref, locale, isMobile: true),
+          ),
         ),
       ],
     );
@@ -182,7 +200,10 @@ class PortfolioShellScreen extends ConsumerWidget {
 
   // ─── Drawer ─────────────────────────────────────────────
   Widget _buildMobileDrawer(
-      BuildContext context, WidgetRef ref, int currentIndex) {
+    BuildContext context,
+    WidgetRef ref,
+    int currentIndex,
+  ) {
     return Drawer(
       backgroundColor: ColorManager.background,
       child: SafeArea(
@@ -200,10 +221,7 @@ class PortfolioShellScreen extends ConsumerWidget {
             const SizedBox(height: 8),
             const Text(
               'Flutter Developer',
-              style: TextStyle(
-                fontSize: 14,
-                color: ColorManager.primary,
-              ),
+              style: TextStyle(fontSize: 14, color: ColorManager.primary),
             ),
             const SizedBox(height: 32),
             const Divider(color: ColorManager.borderColor),
@@ -222,22 +240,19 @@ class PortfolioShellScreen extends ConsumerWidget {
                   sectionNames[index],
                   style: TextStyle(
                     fontSize: 16,
-                    fontWeight:
-                        isActive ? FontWeight.w600 : FontWeight.w400,
+                    fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                     color: isActive
                         ? ColorManager.primary
                         : ColorManager.whiteColor,
                   ),
                 ),
                 selected: isActive,
-                selectedTileColor:
-                    ColorManager.primary.withValues(alpha: 0.1),
+                selectedTileColor: ColorManager.primary.withValues(alpha: 0.1),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8)),
+                  borderRadius: BorderRadius.circular(8),
+                ),
                 onTap: () {
-                  ref
-                      .read(portfolioNavIndexProvider.notifier)
-                      .setIndex(index);
+                  ref.read(portfolioNavIndexProvider.notifier).setIndex(index);
                   Navigator.of(context).pop();
                 },
               );
@@ -250,14 +265,14 @@ class PortfolioShellScreen extends ConsumerWidget {
 
   // ─── Bottom Nav ─────────────────────────────────────────
   Widget _buildBottomNavigationBar(
-      BuildContext context, WidgetRef ref, int currentIndex) {
+    BuildContext context,
+    WidgetRef ref,
+    int currentIndex,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: ColorManager.background,
-        border: Border(
-          top: BorderSide(
-              color: ColorManager.secondBg, width: 1),
-        ),
+        border: Border(top: BorderSide(color: ColorManager.secondBg, width: 1)),
       ),
       child: BottomNavigationBar(
         currentIndex: currentIndex,
