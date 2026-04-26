@@ -2,20 +2,38 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
+
 on:
   push:
     branches:
       - main
+
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+
     steps:
+      # 1️⃣ Checkout code
       - uses: actions/checkout@v4
-      - run: flutter build web --release
+
+      # 2️⃣ Install Flutter (IMPORTANT FIX ✅)
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: 'stable'
+
+      # 3️⃣ Get dependencies
+      - name: Install dependencies
+        run: flutter pub get
+
+      # 4️⃣ Build web
+      - name: Build Flutter Web
+        run: flutter build web --release
+
+      # 5️⃣ Deploy to Firebase
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
-          firebaseServiceAccount: ${{
-            secrets.FIREBASE_SERVICE_ACCOUNT_MD_RASHEDUL_ISLAM_PORTFO_51322 }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_MD_RASHEDUL_ISLAM_PORTFO_51322 }}
           channelId: live
           projectId: md-rashedul-islam-portfo-51322

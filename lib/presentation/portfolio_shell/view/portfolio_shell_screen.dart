@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constansts/color_manger.dart';
 import '../../../l10n/app_localizations.dart';
-import '../../../main.dart';
+import '../../viewmodel/language_provider.dart';
 import '../viewmodel/portfolio_shell_provider.dart';
 import '../../home/view/home_section.dart';
 import '../../services/view/services_section.dart';

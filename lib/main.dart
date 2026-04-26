@@ -8,28 +8,11 @@ import 'core/route/route_name.dart';
 import 'data/sources/local/shared_preference/shared_preference.dart';
 import 'l10n/app_localizations.dart';
 
-final initialLangCodeProvider = Provider<String>((ref) => 'bn');
-
-final localeProvider = NotifierProvider<LocaleNotifier, Locale>(() {
-  return LocaleNotifier();
-});
-
-class LocaleNotifier extends Notifier<Locale> {
-  @override
-  Locale build() {
-    return Locale(ref.watch(initialLangCodeProvider));
-  }
-
-  Future<void> toggleLocale() async {
-    final newLang = state.languageCode == 'en' ? 'bn' : 'en';
-    await SharedPreferenceData.setLanguage(newLang);
-    state = Locale(newLang);
-  }
-}
+import 'presentation/viewmodel/language_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final initialLang = await SharedPreferenceData.getLanguage() ?? 'bn';
+  final initialLang = await SharedPreferenceData.getLanguage() ?? 'en';
 
   runApp(ProviderScope(
     overrides: [
