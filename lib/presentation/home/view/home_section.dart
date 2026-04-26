@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:portfolio_app/core/constansts/image_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/constansts/color_manger.dart';
 import '../../../l10n/app_localizations.dart';
+import 'pdf_view_screen.dart';
 
 class HomeSection extends StatefulWidget {
   const HomeSection({super.key});
@@ -79,6 +81,19 @@ class _HomeSectionState extends State<HomeSection> {
     final uri = Uri.parse(url);
     if (await canLaunchUrl(uri)) {
       await launchUrl(uri, mode: LaunchMode.externalApplication);
+    }
+  }
+
+  void _openResumePdf(BuildContext context) {
+    if (kIsWeb) {
+      // On web, open the asset PDF in a new browser tab
+      launchUrl(Uri.parse('assets/files/md-rashedul-islam-resume.pdf'));
+    } else {
+      // On mobile/desktop, navigate to in-app PDF viewer
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const PdfViewScreen()),
+      );
     }
   }
 
@@ -183,17 +198,15 @@ class _HomeSectionState extends State<HomeSection> {
           runSpacing: 12,
           children: [
             ElevatedButton.icon(
-              onPressed: () => _launchUrl(
-                'https://docs.google.com/document/d/1XBTxv-yhOHRwBghtGq9QZqlhFDGppXFf_8Ul9-sPFjk/edit',
-              ),
+              onPressed: () => _openResumePdf(context),
               icon: const Icon(Icons.download, size: 18),
               label: Text(l10n.downloadCv),
               style: ElevatedButton.styleFrom(
                 backgroundColor: ColorManager.primary,
                 foregroundColor: ColorManager.background,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 28,
-                  vertical: 14,
+                padding: EdgeInsets.symmetric(
+                  horizontal: isMobile ? 28 : 20,
+                  vertical: isMobile ? 14 : 10,
                 ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30),
@@ -288,13 +301,22 @@ class _HomeSectionState extends State<HomeSection> {
             ),
           ],
         ),
-        child: Container(
-          margin: const EdgeInsets.all(4),
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-            color: ColorManager.secondBg,
+        child: ClipOval(
+          child: Container(
+            margin: const EdgeInsets.all(4),
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              color: ColorManager.secondBg,
+            ),
+            child: ClipOval(
+              child: Image.asset(
+                ImageManager.profile,
+                width: size - 8,
+                height: size - 8,
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
-          child: Image.asset(ImageManager.profile  ),
         ),
       ),
     );
