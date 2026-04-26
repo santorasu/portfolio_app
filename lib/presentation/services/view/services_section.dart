@@ -49,14 +49,18 @@ class ServicesSection extends StatelessWidget {
         bool isTablet = width > 600 && width <= 1024;
 
         int crossAxisCount = isMobile ? 1 : (isTablet ? 2 : 3);
-        double childAspectRatio = isMobile ? 2.0 : (isTablet ? 1.3 : 1.1);
+        final double spacing = 16;
 
         final l10n = AppLocalizations.of(context)!;
         final servicesList = _getServices(l10n);
 
+        final double horizontalPadding = isMobile ? 16.0 : width * 0.06;
+        final double availableWidth = width - (horizontalPadding * 2);
+        final double cardWidth = (availableWidth - (spacing * (crossAxisCount - 1))) / crossAxisCount;
+
         return SingleChildScrollView(
           padding: EdgeInsets.symmetric(
-            horizontal: isMobile ? 16.0 : width * 0.06,
+            horizontal: horizontalPadding,
             vertical: 40.0,
           ),
           child: Column(
@@ -86,19 +90,15 @@ class ServicesSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 40),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: crossAxisCount,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  childAspectRatio: childAspectRatio,
-                ),
-                itemCount: servicesList.length,
-                itemBuilder: (context, index) {
-                  return _ServiceCard(service: servicesList[index]);
-                },
+              Wrap(
+                spacing: spacing,
+                runSpacing: spacing,
+                children: servicesList.map((service) {
+                  return SizedBox(
+                    width: cardWidth,
+                    child: _ServiceCard(service: service),
+                  );
+                }).toList(),
               ),
             ],
           ),
@@ -187,15 +187,12 @@ class _ServiceCardState extends State<_ServiceCard> {
               overflow: TextOverflow.ellipsis,
             ),
             const SizedBox(height: 10),
-            Expanded(
-              child: Text(
-                widget.service['desc'],
-                style: const TextStyle(
-                  fontSize: 13,
-                  color: ColorManager.textSecondary,
-                  height: 1.5,
-                ),
-                overflow: TextOverflow.fade,
+            Text(
+              widget.service['desc'],
+              style: const TextStyle(
+                fontSize: 13,
+                color: ColorManager.textSecondary,
+                height: 1.5,
               ),
             ),
           ],

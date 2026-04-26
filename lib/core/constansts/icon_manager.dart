@@ -9,4 +9,5 @@ class IconManager {
   static String favouriteNav = '$baseUrl/favouriteNav.svg';
   static String searchSvg = '$baseUrl/Search.svg';
   static String downloadSvg = '$baseUrl/download.svg';
+  static String profilePic = '$baseUrl/Rasu-removebg.png';
 }

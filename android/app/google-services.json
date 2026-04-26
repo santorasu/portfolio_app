@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "105257645633",
+    "project_id": "md-rashedul-islam-portfo-51322",
+    "storage_bucket": "md-rashedul-islam-portfo-51322.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105257645633:android:316763cc00ed56b5b178c0",
+        "android_client_info": {
+          "package_name": "com.rashedul.portfolio.portfolio_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1VxJl4QJPUGiJzDVClMOIQ_d5TYQXkmc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

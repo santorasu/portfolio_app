@@ -1,0 +1,38 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "md-rashedul-islam-portfo-51322",
+          "appId": "1:105257645633:android:316763cc00ed56b5b178c0",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "md-rashedul-islam-portfo-51322",
+          "configurations": {
+            "android": "1:105257645633:android:316763cc00ed56b5b178c0",
+            "ios": "1:105257645633:ios:bc825ee5d9b3f1abb178c0",
+            "web": "1:105257645633:web:be3cd7f04784a837b178c0",
+            "windows": "1:105257645633:web:e5946e512dc534c1b178c0"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}

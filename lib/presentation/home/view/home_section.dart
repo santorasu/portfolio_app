@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:portfolio_app/core/constansts/image_manager.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/constansts/color_manger.dart';
 import '../../../l10n/app_localizations.dart';
@@ -293,11 +294,7 @@ class _HomeSectionState extends State<HomeSection> {
             shape: BoxShape.circle,
             color: ColorManager.secondBg,
           ),
-          child: Icon(
-            Icons.person,
-            size: size * 0.4,
-            color: ColorManager.primary.withValues(alpha: 0.5),
-          ),
+          child: Image.asset(ImageManager.profile  ),
         ),
       ),
     );
