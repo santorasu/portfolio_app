@@ -48,7 +48,6 @@ app.*.map.json
 !/packages/*/pubspec.lock
 
 # Secret and IDE files
-.env
 key.properties
 *.jks
 *.keystore
@@ -56,3 +55,5 @@ key.properties
 # Plugins
 .flutter-plugins
 
+config.bat
+node_modules

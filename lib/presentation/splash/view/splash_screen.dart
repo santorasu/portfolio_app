@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:portfolio_app/core/resource/style_manager.dart';
 import '../../../core/constansts/color_manger.dart';
 import '../../../core/route/route_name.dart';
 
@@ -66,7 +68,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           color: ColorManager.background,
         ),
         child: AnimatedBuilder(
@@ -81,8 +83,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   children: [
                     // Logo container
                     Container(
-                      width: 100,
-                      height: 100,
+                      width: 100.w,
+                      height: 100.h,
                       decoration: BoxDecoration(
                         color: ColorManager.secondBg,
                         borderRadius: BorderRadius.circular(24),
@@ -94,23 +96,25 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                           ),
                         ],
                       ),
-                      child: const Icon(
+                      child: Icon(
                         Icons.code,
-                        size: 50,
+                        size: 50.sp,
                         color: ColorManager.primary,
                       ),
                     ),
-                    const SizedBox(height: 32),
+                    32.verticalSpace,
 
                     // Name
-                    const Text(
+                     Text(
                       'Rashedul.',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: ColorManager.whiteColor,
-                        letterSpacing: 1.5,
-                      ),
+                      style: getBold700Style18(color: ColorManager.whiteColor),
+                      
+                      // TextStyle(
+                      //   fontSize: 36,
+                      //   fontWeight: FontWeight.bold,
+                      //   color: ColorManager.whiteColor,
+                      //   letterSpacing: 1.5,
+                      // ),
                     ),
                     const SizedBox(height: 8),
 
